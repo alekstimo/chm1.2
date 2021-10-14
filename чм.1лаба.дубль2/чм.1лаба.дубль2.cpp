@@ -2,6 +2,7 @@
 //
 
 #include "Rational.h"
+#include <iomanip>
 #include <fstream>
 #include <string>
 using namespace std;
@@ -11,6 +12,7 @@ void obnulSnizu(int i, int k, int n, Rational* a, Rational* b, Rational* c, Rati
 void print(int k, int n, Rational* a, Rational* b, Rational* c, Rational* p, Rational* q, Rational* f);
 void print(int n, Rational* x);
 void print(int n, double* x);
+double delta(int n, double* ftt);
 void copy(int n, double* ft, Rational* f);
 //double showDecimals(const double& x, const int& numDecimals);
 void obnulSverhu(int i, int k, Rational* a, Rational* b, Rational* c, Rational* p, Rational* q, Rational* f, Rational* ft, double* ftt);
@@ -39,6 +41,7 @@ int main() {
     int k;
     Rational* a, * b, * c, * p, * q, * f, * x, * ft;
     double* ftt;
+    double delt;
     ifstream fin("Текст.txt");
     if (!fin.is_open())
         return -1;
@@ -84,9 +87,21 @@ int main() {
         cout << "F~dbl = ";
         print(n, ftt);
         cout << endl;
+
+        delt = delta(n, ftt);
+        cout << "OCENKA TOCNOSTI RESHENIA:" << endl;
+        cout << " deltaX~ = " << delt << endl;
     }
     system("Pause");
     return 0;
+}
+double delta(int n,double* ftt) {
+    double d = 0;
+    for (int i = 0; i < n; i++) {
+        if (abs(ftt[i] - 1) > d)
+            d = abs(ftt[i] - 1);
+    }
+    return d;
 }
 void resToOne(int k, int n, Rational* a, Rational* b, Rational* c, Rational* p, Rational* q, Rational* f) {
     for (int i = 0; i < n; i++) {
@@ -132,7 +147,7 @@ void print(int n, Rational* x) {
 }
 void print(int n, double* x) {
     for (int i = 0; i < n; i++) {
-        cout << x[i] << " ";
+        cout << fixed << setprecision(5) << x[i] << " ";
     }
     cout << endl;
 }
